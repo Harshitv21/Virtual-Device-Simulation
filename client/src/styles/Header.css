@@ -1,0 +1,8 @@
+.headerComponent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: grey;
+    border-bottom: 2px solid black;
+    text-transform: uppercase;
+}

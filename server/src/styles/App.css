@@ -1,0 +1,25 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.pageContainer {
+    height: 100%;
+    width: 100%;
+}
+
+.components, .statusComponentContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.individualComponents {
+    margin: 20px;
+    padding: 20px;
+    border: 2px solid black;
+    border-radius: 12px;
+    box-shadow: 3px 3px 3px red;
+}

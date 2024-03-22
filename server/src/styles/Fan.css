@@ -1,0 +1,49 @@
+.headingOfComponent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border-bottom: 2px solid black; */
+}
+
+.fanIcon {
+  width: 64px;
+  height: 64px;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.fanBlades {
+  transform-origin: center;
+  animation: spin infinite linear;
+}
+
+.speed-1 {
+  animation-duration: 3s; /* Slowest speed */
+}
+
+.speed-2 {
+  animation-duration: 2s;
+}
+
+.speed-3 {
+  animation-duration: 1s;
+}
+
+.speed-4 {
+  animation-duration: 0.5s;
+}
+
+.speed-5 {
+  animation-duration: 0.2s; /* Fastest speed */
+}
+
+.fanIconContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 8px;
+}
