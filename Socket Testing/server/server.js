@@ -1,5 +1,6 @@
-import express from "express";
+import { createServer } from "http";
 import { Server } from "socket.io";
+import express from "express";
 import cors from "cors";
 
 const app = express();
@@ -7,11 +8,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 const PORT = 5001;
-const io = new Server(5000);
 
-io.on("connection", (socket) => {
-    console.log("Client connected to socket");
+const httpServer = createServer();
+const serverSocket = new Server(httpServer, {
+    cors: {
+        origin: "http://localhost:5173"
+    }
+});
 
+serverSocket.on("connection", (socket) => {
     socket.on("Response", (arg) => {
         console.log(arg);
     });
@@ -24,8 +29,8 @@ app.get("/", (request, response) => {
 app.post("/api/fan", (request, response) => {
     console.log("Sending from express");
     const { newSpeed } = request.body;
-    console.log(newSpeed);
-    io.emit("Speed", newSpeed);
+    // console.log(newSpeed);
+    serverSocket.emit("Speed", newSpeed);
 
     response.json({ "Server Working": "True", "Fan": "Working" });
 })
@@ -33,3 +38,7 @@ app.post("/api/fan", (request, response) => {
 app.listen(PORT, () => {
     console.log(`Running on port: ${PORT}`);
 });
+
+httpServer.listen(5003, () => {
+    console.log(`Socket server connection established!`);
+})
