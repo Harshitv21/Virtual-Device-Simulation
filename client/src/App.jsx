@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { io } from "socket.io-client";
 import "./styles/App.css";
 import AirConditioner from "./components/AirConditioner";
 import Bulb from "./components/Bulb";
@@ -6,45 +7,71 @@ import Fan from "./components/Fan";
 import Header from "./components/Header";
 import Led from "./components/Led";
 import Status from "./components/Status";
-// import axios from "axios";
 
 function App() {
-  // Fan state
+  // socket logic
+  const socket = io("http://localhost:5005");
+
+  /* Fan state */
   const [currentSpeed, setCurrentSpeed] = useState(0);
+  const handleSpeedChange = (newSpeed) => {
+    setCurrentSpeed(newSpeed);
+  };
 
-  // Fan state change function
-  // const handleSpeedChange = (newSpeed) => {
-  //   setCurrentSpeed(newSpeed);
-  // };
+  // receiving fan speed
+  socket.on("Fan", (newSpeed) => {
+    // console.log(newSpeed);
+    socket.emit("Response", "Changed Fan Speed...");
+    handleSpeedChange(newSpeed);
+  });
 
-  // LED state
+  /* LED state */
   const [LEDColor, changeLEDColor] = useState("#a3ffaf");
+  const handleLEDChange = (newColor) => {
+    changeLEDColor(newColor);
+  };
 
-  // LED state change function
-  // const handleLEDChange = (newColor) => {
-  //   changeLEDColor(newColor);
-  // };
+  // receiving new LED color
+  socket.on("Led", (newColor) => {
+    socket.emit("Response", "Changed LED Color...");
+    handleLEDChange(newColor);
+  });
 
-  // Bulb state
+  /* Bulb state */
   const [isOn, setIsOn] = useState(true);
+  const toggleBulb = () => {
+    setIsOn(!isOn);
+  };
 
-  // Bulb state change function
-  // const toggleBulb = () => {
-  //   setIsOn(!isOn);
-  // };
+  // toggling bulb on / off
+  socket.on("Bulb", () => {
+    socket.emit("Response", "Toggled Bulb...");
+    toggleBulb();
+  });
 
-  // AC state
+  /* AC state */
   const [currentTemperature, setCurrentTemperature] = useState(16);
   const [turnOnAC, setTurnOnAC] = useState(false);
+  // toggling ac
+  const toggleACOnOrOff = () => {
+    setTurnOnAC(!turnOnAC);
+  };
+  // changing temperature
+  const changeACTemperature = (newTemp) => {
+    setCurrentTemperature(newTemp);
+  };
 
-  // AC state change function(s)
-  // const changeACTemperature = (newTemp) => {
-  //   setCurrentTemperature(newTemp);
-  // };
+  // not receiving anything just calling toggleACOnOrOff()
+  socket.on("AcToggle", () => {
+    socket.emit("Response", "Toggled AC...");
+    toggleACOnOrOff();
+  });
 
-  // const toggleACOnOrOff = () => {
-  //   setTurnOnAC(!turnOnAC);
-  // };
+  // received current changed temperature
+  socket.on("AcTemp", (currentTemperature) => {
+    socket.emit("Response", "Changed AC Speed...");
+    changeACTemperature(currentTemperature);
+  });
 
   return (
     <>
@@ -53,15 +80,9 @@ function App() {
           <Header />
         </div>
         <div className="components">
-          <Fan
-            currentSpeed={currentSpeed}
-          />
-          <Led
-            LEDColor={LEDColor}
-          />
-          <Bulb
-            isOn={isOn}
-          />
+          <Fan currentSpeed={currentSpeed} />
+          <Led LEDColor={LEDColor} />
+          <Bulb isOn={isOn} />
           <AirConditioner
             currentTemperature={currentTemperature}
             turnOnAC={turnOnAC}

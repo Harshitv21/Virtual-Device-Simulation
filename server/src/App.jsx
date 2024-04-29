@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import "./styles/App.css";
 import AirConditioner from "./components/AirConditioner";
 import Bulb from "./components/Bulb";
@@ -6,40 +7,79 @@ import Fan from "./components/Fan";
 import Header from "./components/Header";
 import Led from "./components/Led";
 import Status from "./components/Status";
-// import axios from "axios";
 
 function App() {
-  // Fan state
+  /* Fan state */
   const [currentSpeed, setCurrentSpeed] = useState(0);
-
   const handleSpeedChange = (newSpeed) => {
     setCurrentSpeed(newSpeed);
   };
 
-  // LED state
-  const [LEDColor, changeLEDColor] = useState("#a3ffaf");
+  // sending fan speed to backend
+  useEffect(() => {
+    const sendClientData = async (newSpeed) => {
+      await axios.post("http://localhost:5000/api/fan", { newSpeed });
+    };
+    sendClientData(currentSpeed);
+  }, [currentSpeed]);
 
+  /* LED state */
+  const [LEDColor, changeLEDColor] = useState("#a3ffaf");
   const handleLEDChange = (newColor) => {
     changeLEDColor(newColor);
   };
 
-  // Bulb state
+  // sending newly generated color
+  useEffect(() => {
+    const sendClientData = async (newColor) => {
+      await axios.post("http://localhost:5000/api/led", { newColor });
+    };
+    sendClientData(LEDColor);
+  }, [LEDColor]);
+
+  /* Bulb state */
   const [isOn, setIsOn] = useState(true);
   const toggleBulb = () => {
     setIsOn(!isOn);
   };
 
-  // AC state
-  const [currentTemperature, setCurrentTemperature] = useState(16);
-  const [turnOnAC, setTurnOnAC] = useState(false);
+  // not sending anything just toggling bulb on / off
+  useEffect(() => {
+    const sendClientData = async () => {
+      await axios.post("http://localhost:5000/api/bulb");
+    };
+    sendClientData(isOn);
+  }, [isOn]);
 
+  /* AC state */
+  const [turnOnAC, setTurnOnAC] = useState(false);
+  const [currentTemperature, setCurrentTemperature] = useState(16);
+  // toggling ac on / off
+  const toggleACOnOrOff = () => {
+    setTurnOnAC(!turnOnAC);
+  };
+  // setting ac temperature
   const changeACTemperature = (newTemp) => {
     setCurrentTemperature(newTemp);
   };
 
-  const toggleACOnOrOff = () => {
-    setTurnOnAC(!turnOnAC);
-  };
+  // again for ac also not sending anything when just turning ac on or off
+  useEffect(() => {
+    const sendClientData = async () => {
+      await axios.post("http://localhost:5000/api/acToggle");
+    };
+    sendClientData();
+  }, [turnOnAC]);
+
+  // sending current changed temperature
+  useEffect(() => {
+    const sendClientData = async (currentTemperature) => {
+      await axios.post("http://localhost:5000/api/acTemp", {
+        currentTemperature,
+      });
+    };
+    sendClientData(currentTemperature);
+  }, [currentTemperature]);
 
   return (
     <>
