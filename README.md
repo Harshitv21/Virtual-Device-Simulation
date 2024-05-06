@@ -13,11 +13,11 @@ npm run dev
 
 ```cmd
 cd server
-npm run dev
+npm run server
 ```
 
-To start node server
+For development
 
 ```cmd
-npm run server
+npm run dev
 ```
