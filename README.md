@@ -4,20 +4,23 @@ Managing state of devices remotely in a virtual simulated environment through ex
 
 ## Client side
 
-```cmd
+```bash
 cd client
-npm run dev
+npm run devices
 ```
 
 ## Server side
 
-```cmd
+First start up the server
+
+```bash
 cd server
+# 
 npm run server
 ```
 
-For development
+For webpage (from where actual changes will be made to server)
 
-```cmd
-npm run dev
+```bash
+npm run ui
 ```
