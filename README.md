@@ -15,7 +15,6 @@ First start up the server
 
 ```bash
 cd server
-# 
 npm run server
 ```
 
