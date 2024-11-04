@@ -8,6 +8,8 @@ import Header from "./components/Header";
 import Led from "./components/Led";
 import Status from "./components/Status";
 
+const baseUrl = import.meta.env.VITE_DEPLOYED_URL || "http://localhost:5069";
+
 function App() {
   /* Fan state */
   const [currentSpeed, setCurrentSpeed] = useState(0);
@@ -18,7 +20,7 @@ function App() {
   // sending fan speed to backend
   useEffect(() => {
     const sendClientData = async (newSpeed) => {
-      await axios.post("http://localhost:5000/api/fan", { newSpeed });
+      await axios.post(`${baseUrl}/api/fan`, { newSpeed });
     };
     sendClientData(currentSpeed);
   }, [currentSpeed]);
@@ -32,7 +34,7 @@ function App() {
   // sending newly generated color
   useEffect(() => {
     const sendClientData = async (newColor) => {
-      await axios.post("http://localhost:5000/api/led", { newColor });
+      await axios.post(`${baseUrl}/api/led`, { newColor });
     };
     sendClientData(LEDColor);
   }, [LEDColor]);
@@ -46,7 +48,7 @@ function App() {
   // not sending anything just toggling bulb on / off
   useEffect(() => {
     const sendClientData = async () => {
-      await axios.post("http://localhost:5000/api/bulb");
+      await axios.post(`${baseUrl}/api/bulb`);
     };
     sendClientData(isOn);
   }, [isOn]);
@@ -66,7 +68,7 @@ function App() {
   // again for ac also not sending anything when just turning ac on or off
   useEffect(() => {
     const sendClientData = async () => {
-      await axios.post("http://localhost:5000/api/acToggle");
+      await axios.post(`${baseUrl}/api/acToggle`);
     };
     sendClientData();
   }, [turnOnAC]);
@@ -74,7 +76,7 @@ function App() {
   // sending current changed temperature
   useEffect(() => {
     const sendClientData = async (currentTemperature) => {
-      await axios.post("http://localhost:5000/api/acTemp", {
+      await axios.post(`${baseUrl}/api/acTemp`, {
         currentTemperature,
       });
     };

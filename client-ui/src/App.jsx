@@ -10,7 +10,7 @@ import Status from "./components/Status";
 
 function App() {
   // socket logic
-  const socket = io("http://localhost:5005");
+  const socket = io("http://localhost:5069");
 
   /* Fan state */
   const [currentSpeed, setCurrentSpeed] = useState(0);

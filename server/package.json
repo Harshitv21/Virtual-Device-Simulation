@@ -1,34 +1,21 @@
 {
-  "name": "client",
-  "private": true,
-  "version": "0.0.0",
+  "name": "server",
+  "version": "1.0.0",
+  "main": "server.js",
   "type": "module",
-  "proxy": "http://localhost:5000",
   "scripts": {
-    "ui": "vite",
-    "server": "node server.js",
-    "build": "vite build",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "server": "node server.js"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
   "dependencies": {
-    "axios": "^1.6.8",
-    "bootstrap": "^5.3.3",
     "cors": "^2.8.5",
-    "express": "^4.18.3",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "socket.io": "^4.7.5"
-  },
-  "devDependencies": {
-    "@types/react": "^18.2.64",
-    "@types/react-dom": "^18.2.21",
-    "@vitejs/plugin-react": "^4.2.1",
-    "eslint": "^8.57.0",
-    "eslint-plugin-react": "^7.34.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.5",
-    "nodemon": "^3.1.0",
-    "vite": "^5.1.6"
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "socket.io": "^4.8.1"
   }
 }
