@@ -4,20 +4,20 @@ Managing state of devices remotely in a virtual simulated environment through ex
 
 ## Install Dependencies
 
-Go to each individual directory (`client` & `server`) and run this command
+Go to each individual directory (`client-ui`, `server-ui` & `server`) and run this command
 
 ```bash
 npm i
 ```
 
-## Client side
+## Client side UI
 
 ```bash
-cd client
+cd client-ui
 npm run devices
 ```
 
-## Server side
+## Server
 
 First start up the server
 
@@ -26,8 +26,13 @@ cd server
 npm run server
 ```
 
+## Server side UI
+
 For webpage (from where actual changes will be made to server)
 
 ```bash
-npm run ui
+cd server-ui
+npm run server-ui
 ```
+
+---
