@@ -6,7 +6,16 @@ function Led({ LEDColor, handleLEDChange }) {
   };
 
   const generateRandomHexColor = () => {
-    return "#" + Math.floor(Math.random() * 16777215).toString(16);
+    // Generate a random number and convert it to a hex string
+    let hex = Math.floor(Math.random() * 16777215).toString(16);
+
+    // Pad the hex string with leading zeros if it's shorter than 6 characters
+    while (hex.length < 6) {
+      hex = "0" + hex;
+    }
+
+    // Return the color in the "#rrggbb" format
+    return "#" + hex;
   };
 
   const handleRandomize = () => {
