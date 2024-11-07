@@ -11,7 +11,7 @@ import Status from "./components/Status";
 function App() {
   // socket logic
   const socket = io(
-    `${import.meta.env.VITE_EMPTY_URL || "http://localhost:5069"}`
+    `${import.meta.env.VITE_DEPLOYED_URL || "http://localhost:5069"}`
   );
 
   /* states */
