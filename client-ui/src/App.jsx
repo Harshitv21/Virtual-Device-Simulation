@@ -30,7 +30,7 @@ function App() {
     async function fetchInitialState() {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_EMPTY_URL || "http://localhost:5069"}/devices`
+          `${import.meta.env.VITE_DEPLOYED_URL || "http://localhost:5069"}/devices`
         );
         const data = await response.json();
         setCurrentSpeed(data.fanSpeed);
@@ -92,7 +92,7 @@ function App() {
     const pollDeviceStates = setInterval(async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_EMPTY_URL || "http://localhost:5069"}/devices`
+          `${import.meta.env.VITE_DEPLOYED_URL || "http://localhost:5069"}/devices`
         );
         const data = await response.json();
 
