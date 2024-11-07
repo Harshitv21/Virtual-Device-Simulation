@@ -8,7 +8,7 @@ import Header from "./components/Header";
 import Led from "./components/Led";
 import Status from "./components/Status";
 
-const baseUrl = import.meta.env.VITE_DEPLOYED_URL || "http://localhost:5069";
+const baseUrl = import.meta.env.VITE_EMPTY_URL || "http://localhost:5069";
 
 function App() {
   /* Fan state */
@@ -20,7 +20,7 @@ function App() {
   // sending fan speed to backend
   useEffect(() => {
     const sendClientData = async (newSpeed) => {
-      await axios.post(`${baseUrl}/api/fan`, { newSpeed });
+      await axios.post(`${baseUrl}/fan`, { newSpeed });
     };
     sendClientData(currentSpeed);
   }, [currentSpeed]);
@@ -34,32 +34,35 @@ function App() {
   // sending newly generated color
   useEffect(() => {
     const sendClientData = async (newColor) => {
-      await axios.post(`${baseUrl}/api/led`, { newColor });
+      await axios.post(`${baseUrl}/led`, { newColor });
     };
     sendClientData(LEDColor);
   }, [LEDColor]);
 
   /* Bulb state */
   const [isOn, setIsOn] = useState(true);
+
   const toggleBulb = () => {
-    setIsOn(!isOn);
+    setIsOn((prev) => !prev);
   };
 
   // not sending anything just toggling bulb on / off
   useEffect(() => {
     const sendClientData = async () => {
-      await axios.post(`${baseUrl}/api/bulb`);
+      await axios.post(`${baseUrl}/bulb`, { isOn });
     };
-    sendClientData(isOn);
+    sendClientData();
   }, [isOn]);
 
   /* AC state */
   const [turnOnAC, setTurnOnAC] = useState(false);
   const [currentTemperature, setCurrentTemperature] = useState(16);
+
   // toggling ac on / off
-  const toggleACOnOrOff = () => {
-    setTurnOnAC(!turnOnAC);
+  const toggleACOnOrOff = async () => {
+    setTurnOnAC((prev) => !prev);
   };
+
   // setting ac temperature
   const changeACTemperature = (newTemp) => {
     setCurrentTemperature(newTemp);
@@ -68,7 +71,7 @@ function App() {
   // again for ac also not sending anything when just turning ac on or off
   useEffect(() => {
     const sendClientData = async () => {
-      await axios.post(`${baseUrl}/api/acToggle`);
+      await axios.post(`${baseUrl}/acToggle`, { turnOnAC });
     };
     sendClientData();
   }, [turnOnAC]);
@@ -76,7 +79,7 @@ function App() {
   // sending current changed temperature
   useEffect(() => {
     const sendClientData = async (currentTemperature) => {
-      await axios.post(`${baseUrl}/api/acTemp`, {
+      await axios.post(`${baseUrl}/acTemp`, {
         currentTemperature,
       });
     };
