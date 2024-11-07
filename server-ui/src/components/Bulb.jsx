@@ -1,8 +1,25 @@
+import { useState } from "react";
 import "../styles/Bulb.css";
 
-function Bulb({isOn, toggleBulb}) {
+function Bulb({ isOn, toggleBulb }) {
+  const [isClickDisabled, setIsClickDisabled] = useState(false);
+
   const onColor = "#fef6aa";
   const offColor = "#fff";
+
+  const handleBulbClick = () => {
+    if (isClickDisabled) return;
+
+    // Disable click for 2 seconds
+    setIsClickDisabled(true);
+
+    toggleBulb();
+
+    // Re-enable the bulb click after 2 seconds
+    setTimeout(() => {
+      setIsClickDisabled(false);
+    }, 2000);
+  };
 
   return (
     <div className="individualComponents">
@@ -17,10 +34,14 @@ function Bulb({isOn, toggleBulb}) {
           height="100px"
         >
           <path
-            style={{ fill: `${isOn ? onColor : offColor}`, userSelect: "none" }}
+            style={{
+              fill: `${isOn ? onColor : offColor}`,
+              userSelect: "none",
+              cursor: isClickDisabled ? "not-allowed" : "pointer",
+            }}
             // fill="#fef6aa"
             d="M59.888,70.332c2.031-1.277,2.875-4.239,2.422-5.765l-0.541-4.415c8.007-4.104,13.918-12.381,13.918-21.997c0-13.68-11.509-24.81-25.189-24.81s-24.769,11.09-24.769,24.769c0,9.616,5.491,17.933,13.498,22.037l-0.541,4.415c0,2.568,1.674,4.764,3.986,5.551"
-            onClick={toggleBulb}
+            onClick={handleBulbClick}
           />
           <path
             fill="#1f212b"
